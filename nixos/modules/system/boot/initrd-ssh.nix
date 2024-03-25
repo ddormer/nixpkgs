@@ -96,6 +96,14 @@ in
       '';
     };
 
+    passwordAuthentication = mkOption {
+      type = types.bool;
+      default = false;
+      description = lib.mdDoc ''
+      Enable or disable password authentication.
+      '';
+    };
+
     extraConfig = mkOption {
       type = types.lines;
       default = "";
@@ -127,7 +135,7 @@ in
       UsePAM no
       Port ${toString cfg.port}
 
-      PasswordAuthentication no
+      PasswordAuthentication ${if cfg.passwordAuthentication then "yes" else "no"}
       AuthorizedKeysFile %h/.ssh/authorized_keys %h/.ssh/authorized_keys2 /etc/ssh/authorized_keys.d/%u
       ChallengeResponseAuthentication no
 
